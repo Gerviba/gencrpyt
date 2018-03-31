@@ -1,34 +1,32 @@
 /*
- * rot13.h
+ * xor.h
  *
  *  Created on: Mar 31, 2018
  *      Author: Gerviba
  */
 
-#ifndef SRC_ROT13_H_
-#define SRC_ROT13_H_
+#ifndef SRC_XOR_H_
+#define SRC_XOR_H_
 
 #include "gencrypt.h"
 
 namespace gencrypt {
 
-class Rot13: public SymmetricEncription {
+class Xor: public SymmetricEncription {
 private:
 	inline std::string code(std::string input);
-	static std::string UPPERCASE;
-	static std::string LOWERCASE;
+	Xor();
 public:
-	Rot13() {}
+	Xor(Key key);
 	std::string getName() const;
 	std::string encode(std::string en);
 	std::istream& operator>>(std::istream& in);
 	std::string decode(std::string de);
 	std::ostream& operator<<(std::ostream& out);
-
 };
 
-std::ostream& operator<<(std::ostream& os, const Rot13& obj);
+std::ostream& operator<<(std::ostream& os, const Xor& obj);
 
 } /* namespace gencrypt */
 
-#endif /* SRC_ROT13_H_ */
+#endif /* SRC_XOR_H_ */

@@ -1,7 +1,7 @@
 
 CXXFLAGS = -g -Wall
 
-OBJS = src/key.cpp src/gencrypt.cpp src/genericcrpyto.cpp src/rot13.cpp
+OBJS = $(wildcard src/*.cpp)
 
 .PHONY: all
 all: install
