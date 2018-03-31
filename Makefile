@@ -6,7 +6,7 @@ OBJS = src/key.cpp src/gencrypt.cpp src/genericcrpyto.cpp src/rot13.cpp
 .PHONY: all
 all: install
 
-install: $(OBJS)
+install: clean $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o gencrypt
 	
 test:
@@ -17,4 +17,7 @@ touch:
 	touch src/*
 	
 clean:
-	rm gencrypt
+	rm -f gencrypt
+	
+run:
+	./gencrypt
