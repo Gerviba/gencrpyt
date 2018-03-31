@@ -25,6 +25,13 @@ C++ crpyto library by Szabó Gergely
 | `$ make touch` | Touch the source files |
 | `$ make clean` | Remove the binary |
 
+## Supported encryptions
+
+|Name|Type|Description|
+|----|----|-----------|
+|rot13|Symmetric, Keyless|Rotates the alphabet with 13 chars|
+|xor  |Symmetric|Applies xor key[i] for every character (i modulo key length)|
+
 ## IDE
 
 I use Eclipse CDT but the project can be compiled using only command line tools.
