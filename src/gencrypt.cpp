@@ -10,6 +10,12 @@
 #include "gencrypt.h"
 #include "key.h"
 
+// TwoWay
+
+bool gencrypt::TwoWayEncription::isTwoWay() const {
+	return true;
+}
+
 // SymmetricEncription
 
 bool gencrypt::SymmetricEncription::isSymmetric() const {
@@ -46,4 +52,8 @@ gencrypt::Key const& gencrypt::AsymmetricEncription::getPublicKey() const {
 
 std::string gencrypt::HashAlgorithm::getType() const {
 	return "Hash";
+}
+
+bool gencrypt::HashAlgorithm::isTwoWay() const {
+	return false;
 }

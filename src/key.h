@@ -8,6 +8,8 @@
 #ifndef SRC_KEY_H_
 #define SRC_KEY_H_
 
+#include <iostream>
+
 namespace gencrypt {
 
 class Key {
@@ -17,6 +19,7 @@ private:
 public:
 	Key();
 	Key(const char* key);
+	Key(const std::istream& file);
 	Key(const Key& key);
 	char *getRawKey() const;
 	unsigned int getLength() const;

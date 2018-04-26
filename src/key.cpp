@@ -5,6 +5,7 @@
  *      Author: Gerviba
  */
 
+#include <iostream>
 #include <cstdlib>
 #include <string.h>
 #include "key.h"
@@ -18,6 +19,13 @@ gencrypt::Key::Key(const char* key) {
 	this->length = strlen(key);
 	this->key = new char[this->length + 1];
 	strcpy(this->key, key);
+}
+
+gencrypt::Key::Key(const std::istream& file) {
+	std::cout << "Key ios ctor " << this->length << std::endl;
+	//TODO: Load from file
+	this->key = NULL;
+	this->length = 0;
 }
 
 gencrypt::Key::Key(const Key& key) {

@@ -17,15 +17,11 @@ private:
 	inline std::string code(std::string input);
 	Xor();
 public:
-	Xor(Key key);
+	Xor(Key const& key);
 	std::string getName() const;
 	std::string encode(std::string en);
-	std::istream& operator>>(std::istream& in);
 	std::string decode(std::string de);
-	std::ostream& operator<<(std::ostream& out);
 };
-
-std::ostream& operator<<(std::ostream& os, const Xor& obj);
 
 } /* namespace gencrypt */
 
