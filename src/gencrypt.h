@@ -23,15 +23,16 @@ public:
 	virtual std::string getName() const = 0;
 	virtual std::string getType() const = 0;
 	virtual std::string encode(std::string in) = 0;
-	virtual std::istream& operator>>(std::istream& in) = 0;
+//	virtual std::string encode(std::istream is) = 0;
+	virtual bool isTwoWay() const = 0;
 	virtual ~CryptoAlgorithm() {};
 };
 
 class TwoWayEncription: public CryptoAlgorithm {
 public:
 	virtual std::string decode(std::string out) = 0;
-	virtual std::ostream& operator<<(std::ostream& out) = 0;
 	virtual bool isSymmetric() const = 0;
+	virtual bool isTwoWay() const;
 };
 
 class SymmetricEncription: public TwoWayEncription {
@@ -39,7 +40,7 @@ protected:
 	Key const& key;
 public:
 	SymmetricEncription() : key(Key()) {}
-	SymmetricEncription(Key key) : key(key) {}
+	SymmetricEncription(Key const& key) : key(key) {}
 	Key const& getKey() const;
 	bool isSymmetric() const;
 	virtual std::string getType() const;
@@ -50,17 +51,18 @@ protected:
 	Key const& privateKey;
 	Key const& publicKey;
 public:
-	AsymmetricEncription(Key privateKey, Key publicKey)
+	AsymmetricEncription(Key const& privateKey, Key const& publicKey)
 		: privateKey(privateKey), publicKey(publicKey) {}
 	Key const& getPrivateKey() const;
 	Key const& getPublicKey() const;
 	bool isSymmetric() const;
-	std::string getType() const;
+	virtual std::string getType() const;
 };
 
 class HashAlgorithm: public CryptoAlgorithm {
 public:
 	std::string getType() const;
+	virtual bool isTwoWay() const;
 };
 
 } /* namespace gencrypt */

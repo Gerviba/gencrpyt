@@ -29,20 +29,8 @@ std::string gencrypt::Rot13::encode(std::string en) {
 	return code(en);
 }
 
-std::istream& gencrypt::Rot13::operator>>(std::istream& in) {
-	return in;
-}
-
 std::string gencrypt::Rot13::decode(std::string de) {
 	return code(de);
-}
-
-std::ostream& gencrypt::Rot13::operator<<(std::ostream& out) {
-	return out;
-}
-
-std::ostream& gencrypt::operator<<(std::ostream& os, const Rot13& obj) {
-	return os;
 }
 
 

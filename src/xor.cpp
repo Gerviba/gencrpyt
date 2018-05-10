@@ -7,7 +7,7 @@
 
 #include "xor.h"
 
-gencrypt::Xor::Xor(Key key) : SymmetricEncription(key) {}
+gencrypt::Xor::Xor(Key const& key) : SymmetricEncription(key) {}
 
 inline std::string gencrypt::Xor::code(std::string input) {
 	for (int i = 0, len = input.length(); i < len; ++i)
@@ -23,18 +23,6 @@ std::string gencrypt::Xor::encode(std::string en) {
 	return code(en);
 }
 
-std::istream& gencrypt::Xor::operator>>(std::istream& in) {
-	return in;
-}
-
 std::string gencrypt::Xor::decode(std::string de) {
 	return code(de);
-}
-
-std::ostream& gencrypt::Xor::operator<<(std::ostream& out) {
-	return out;
-}
-
-std::ostream& gencrypt::operator<<(std::ostream& os, const Xor& obj) {
-	return os;
 }
