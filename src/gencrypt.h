@@ -23,6 +23,7 @@ public:
 	virtual std::string getName() const = 0;
 	virtual std::string getType() const = 0;
 	virtual std::string encode(std::string in) = 0;
+//	virtual std::string encode(std::istream is) = 0;
 	virtual bool isTwoWay() const = 0;
 	virtual ~CryptoAlgorithm() {};
 };

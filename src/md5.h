@@ -12,9 +12,9 @@
 
 namespace gencrypt {
 
-class MD5: public HashAlgorithm {
+class MD5Hasher: public HashAlgorithm {
 public:
-	MD5();
+	MD5Hasher();
 	std::string getName() const;
 	std::string encode(std::string en);
 };

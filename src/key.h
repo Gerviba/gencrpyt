@@ -13,19 +13,32 @@
 namespace gencrypt {
 
 class Key {
-private:
+protected:
 	char *key;
-	unsigned int length;
+	size_t length;
 public:
 	Key();
 	Key(const char* key);
-	Key(const std::istream& file);
+	Key(std::istream& is);
 	Key(const Key& key);
 	char *getRawKey() const;
-	unsigned int getLength() const;
+	size_t getLength() const;
 	char operator[](unsigned int index) const;
 	char getByteAt(unsigned int index) const;
 	virtual ~Key();
+};
+
+class PrimeKey: public Key {
+private:
+	long int prime;
+public:
+	PrimeKey() : Key() {};
+	PrimeKey(const char* key) : Key(key) {};
+	PrimeKey(std::istream& is) : Key(is) {};
+	PrimeKey(const PrimeKey& key) : Key(key) {};
+	PrimeKey(long int prime);
+	long int getPrime() const;
+	virtual ~PrimeKey() {};
 };
 
 } /* namespace gencrypt */

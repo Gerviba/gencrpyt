@@ -6,17 +6,18 @@
  */
 
 #include "md5.h"
+#include "md5impl.h"
 
 namespace gencrypt {
 
-MD5::MD5() {}
+MD5Hasher::MD5Hasher() {}
 
-std::string MD5::getName() const {
+std::string MD5Hasher::getName() const {
 	return "MD5";
 }
 
-std::string MD5::encode(std::string en) {
-	return en;
+std::string MD5Hasher::encode(std::string en) {
+	return md5(en);
 }
 
 } /* namespace gencrypt */

@@ -7,10 +7,13 @@
 
 #include <iostream>
 #include "genericcrpyto.h"
+
+#include "linkedcollection.hpp"
+#include "md5.h"
 #include "rot13.h"
 #include "xor.h"
+#include "base64.h"
 #include "rsa.h"
-#include "md5.h"
 
 using namespace gencrypt;
 
@@ -18,6 +21,19 @@ int main(int argc, char **argv) {
 
 	//TODO: Add GTEST_LITE tests
 
+	PrimeKey pkey(2147483647);
+	std::cout << pkey.getPrime() << std::endl;
+
+	std::cout << "Test:" << std::endl;
+	{
+		LinkedCollection<CryptoAlgorithm> collection;
+		collection.append(new Rot13());
+		collection.append(new Xor(Key("1234567")));
+		collection.append(new MD5Hasher());
+
+		for (LinkedCollection<CryptoAlgorithm>::Iterator it = collection.iterator(); it.notNull(); ++it)
+			std::cout << (*it)->getName() << std::endl;
+	}
 	std::cout << ">> Test #1: Encode Decode" << std::endl;
 
 	Rot13 r13;
@@ -34,6 +50,13 @@ int main(int argc, char **argv) {
 			<< x.decode(x.encode("Gerviba")) << "\t"
 			<< std::endl;
 
+	Base64 b64;
+	std::cout << b64.getType() << "\t"
+			<< b64.getName() << "\t"
+			<< b64.encode("Gerviba") << "\t"
+			<< b64.decode(b64.encode("Gerviba")) << "\t"
+			<< std::endl;
+
 	RSA rsa(Key("private"), Key("public"));
 	std::cout << rsa.getType() << "\t"
 			<< rsa.getName() << "\t"
@@ -41,7 +64,7 @@ int main(int argc, char **argv) {
 			<< rsa.decode(rsa.encode("Gerviba")) << "\t"
 			<< std::endl;
 
-	MD5 md5;
+	MD5Hasher md5;
 	std::cout << md5.getType() << "\t\t"
 			<< md5.getName() << "\t"
 			<< md5.encode("Gerviba") << "\t"
@@ -82,6 +105,8 @@ int main(int argc, char **argv) {
 				<< algorithms[i]->encode(input) << std::endl;
 
 	std::cout << std::endl;
+
+	rsa.rsa();
 
 	return 0;
 }
