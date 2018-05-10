@@ -9,8 +9,17 @@
 
 namespace gencrypt {
 
-RSA::RSA(Key const& privateKey, Key const& publicKey)
-		: AsymmetricEncription(privateKey, publicKey) {}
+RSA::RSA(PrimeKey const& privateKey, PrimeKey const& publicKey)
+		: AsymmetricEncription(privateKey, publicKey) {
+	flag = 0;
+	p = privateKey.getPrime();
+	q = publicKey.getPrime();;
+	n = p * q;
+	t = (p - 1) * (q - 1);
+	i = 0;
+	j = 0;
+	ce();
+}
 
 std::string RSA::getName() const {
 	return "RSA";
@@ -115,31 +124,34 @@ void RSA::ce() {
 }
 
 int RSA::rsa() {
-	cout << "\nENTER FIRST PRIME NUMBER\n";
-	cin >> p;
-	flag = prime(p);
-	if (flag == 0) {
-		cout << "\nWRONG INPUT\n";
-		exit(1);
-	}
-	cout << "\nENTER ANOTHER PRIME NUMBER\n";
-	cin >> q;
-	flag = prime(q);
-	if (flag == 0 || p == q) {
-		cout << "\nWRONG INPUT\n";
-		exit(1);
-	}
+//	cout << "\nENTER FIRST PRIME NUMBER\n";
+//	cin >> p;
+//	flag = prime(p);
+//	if (flag == 0) {
+//		cout << "\nWRONG INPUT\n";
+//		exit(1);
+//	}
+//
+//	cout << "\nENTER ANOTHER PRIME NUMBER\n";
+//	cin >> q;
+//	flag = prime(q);
+//	if (flag == 0 || p == q) {
+//		cout << "\nWRONG INPUT\n";
+//		exit(1);
+//	}
+
 	cout << "\nENTER MESSAGE\n";
 //	fflush (stdin);
 	cin >> msg;
 	for (i = 0; msg[i] != '\0'; i++)
 		m[i] = msg[i];
-	n = p * q;
-	t = (p - 1) * (q - 1);
-	ce();
-	cout << "\nPOSSIBLE VALUES OF e AND d ARE\n";
-	for (i = 0; i < j - 1; i++)
-		cout << e[i] << "\t" << d[i] << "\n";
+//	n = p * q;
+//	t = (p - 1) * (q - 1);
+//	ce();
+
+//	cout << "\nPOSSIBLE VALUES OF e AND d ARE\n";
+//	for (i = 0; i < j - 1; i++)
+//		cout << e[i] << "\t" << d[i] << "\n";
 	encrypt();
 	decrypt();
 	return 0;

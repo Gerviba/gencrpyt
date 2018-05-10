@@ -31,11 +31,11 @@ public:
 class PrimeKey: public Key {
 private:
 	long int prime;
+	PrimeKey(const char* key);
+	PrimeKey(std::istream& is);
 public:
-	PrimeKey() : Key() {};
-	PrimeKey(const char* key) : Key(key) {};
-	PrimeKey(std::istream& is) : Key(is) {};
-	PrimeKey(const PrimeKey& key) : Key(key) {};
+	PrimeKey() : Key(), prime(0) {};
+	PrimeKey(const PrimeKey& key) : Key(), prime(0) {};
 	PrimeKey(long int prime);
 	long int getPrime() const;
 	virtual ~PrimeKey() {};

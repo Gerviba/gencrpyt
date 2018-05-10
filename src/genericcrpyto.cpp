@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
 			<< b64.decode(b64.encode("Gerviba")) << "\t"
 			<< std::endl;
 
-	RSA rsa(Key("private"), Key("public"));
+	RSA rsa(PrimeKey(11), PrimeKey(97));
 	std::cout << rsa.getType() << "\t"
 			<< rsa.getName() << "\t"
 			<< rsa.encode("Gerviba") << "\t"

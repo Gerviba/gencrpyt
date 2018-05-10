@@ -20,7 +20,7 @@ private:
 	long int p, q, n, t, flag, e[100], d[100], temp[100], j, m[100], en[100], i;
 	char msg[100];
 public:
-	RSA(Key const& privateKey, Key const& publicKey);
+	RSA(PrimeKey const& privateKey, PrimeKey const& publicKey);
 	std::string getName() const;
 	std::string encode(std::string en);
 	std::string decode(std::string de);
