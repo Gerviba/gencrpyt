@@ -86,8 +86,9 @@ public:
 
 	virtual ~LinkedCollection(){
 		Element<T>* current = first;
-		while (current->getNext() != NULL) {
+		while (current != NULL) {
 			Element<T>* temp = current->getNext();
+			delete current->get();
 			delete current;
 			current = temp;
 		}

@@ -2,7 +2,7 @@
  * base64.h
  *
  *  Created on: May 10, 2018
- *      Author: root
+ *      Author: Gerviba
  */
 
 #ifndef SRC_BASE64_H_
@@ -15,8 +15,6 @@ namespace gencrypt {
 
 class Base64: public SymmetricEncription {
 private:
-	static std::string BASE64_CHARS;
-
 	int calcIds(const std::string& de, size_t i);
 
 public:
