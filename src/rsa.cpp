@@ -1,37 +1,14 @@
 /*
  * rsa.cpp
  *
- *  Created on: Apr 26, 2018
- *      Author: root
+ * Converted to C++ and clean-ups by Szabó Gergely (Gerviba)
+ * Based on: https://www.sanfoundry.com/cpp-program-implement-rsa-algorithm/
  */
 
 #include "rsa.h"
 
-namespace gencrypt {
-
-RSA::RSA(PrimeKey const& privateKey, PrimeKey const& publicKey)
-		: AsymmetricEncription(privateKey, publicKey) {
-	flag = 0;
-	p = privateKey.getPrime();
-	q = publicKey.getPrime();;
-	n = p * q;
-	t = (p - 1) * (q - 1);
-	i = 0;
-	j = 0;
-	ce();
-}
-
-std::string RSA::getName() const {
-	return "RSA";
-}
-
-std::string RSA::encode(std::string en) {
-	return en;
-}
-
-std::string RSA::decode(std::string de) {
-	return de;
-}
+#include <string.h>
+#include <stdexcept>
 
 #include <iostream>
 #include <math.h>
@@ -39,27 +16,88 @@ std::string RSA::decode(std::string de) {
 #include <stdlib.h>
 #include <stdio.h>
 
-using std::cin;
-using std::cout;
+namespace gencrypt {
 
-int RSA::prime(long int pr) {
-	int i;
-	j = sqrt(pr);
-	for (i = 2; i <= j; i++)
-		if (pr % i == 0)
-			return 0;
-	return 1;
+RSA::RSA(const PrimeKey* privateKey, const PrimeKey* publicKey, size_t size)
+		: AsymmetricEncription(privateKey, publicKey) {
+
+	p = privateKey->getPrime();
+	if (!isPrime(p) && p != 0)
+		throw std::invalid_argument("The private key is not a prime number");
+
+	q = publicKey->getPrime();
+	if (!isPrime(q) && q != 0)
+		throw std::invalid_argument("The public key is not a prime number");
+
+	if (p == q)
+		throw std::invalid_argument("The private and the public keys are the same");
+
+	e = new long int[100];
+	d = new long int[100];
+	temp = new long int[size];
+	msg = new long int[size];
+	en = new long int[size];
+	this->size = size;
+
+	n = p * q;
+	t = (p - 1) * (q - 1);
+	calcE();
 }
 
-void RSA::encrypt() {
-	long int pt, ct, key = e[0], k, len;
-	i = 0;
-	len = strlen(msg);
-	while (i != len) {
-		pt = m[i];
+std::string RSA::getName() const {
+	return "RSA";
+}
+
+std::string RSA::encode(std::string en) {
+	for (size_t i = 0; i < en.length(); i++)
+		this->msg[i] = en[i];
+	this->msg[en.length()] = '\0';
+	return encrypt(en.length());
+}
+
+std::string RSA::decode(std::string de) {
+	for (size_t index = 0; index < de.length(); index += 8) {
+		converter conv;
+		for (int bit = 0; bit < 8; ++bit)
+			conv.c[bit] = de[index + bit];
+		en[index / 8] = conv.l;
+	}
+	en[de.length() / 8] = -1;
+	return decrypt();
+}
+
+void RSA::encode(std::istream& is, std::ostream& os, bool endl) {
+	std::string input;
+	std::getline(is, input);
+	os << encode(input);
+	if (endl)
+		os << std::endl;
+}
+
+void RSA::decode(std::istream& is, std::ostream& os, bool endl) {
+	std::string input;
+	std::getline(is, input);
+	os << decode(input);
+	if (endl)
+		os << std::endl;
+}
+
+bool RSA::isPrime(long int pr) { //TODO: Bool
+	int j = sqrt(pr);
+	for (int i = 2; i <= j; i++)
+		if (pr % i == 0)
+			return false;
+	return true;
+}
+
+inline std::string RSA::encrypt(long int length) {
+	long int pt, ct, key = e[0], k;
+	int i = 0;
+	while (i != length) {
+		pt = msg[i];
 		pt -= 96;
 		k = 1;
-		for (j = 0; j < key; j++) {
+		for (int j = 0; j < key; j++) {
 			k *= pt;
 			k %= n;
 		}
@@ -69,32 +107,40 @@ void RSA::encrypt() {
 		i++;
 	}
 	en[i] = -1;
-	cout << "\nTHE ENCRYPTED MESSAGE IS\n";
-	for (i = 0; en[i] != -1; i++)
-		printf("%c", en[i]);
+
+	std::string result;
+	for (size_t index = 0; en[index] != -1; ++index) {
+		converter conv;
+		conv.l = temp[index];
+		for (int byte = 0; byte < 8; ++byte)
+			result += conv.c[byte];
+	}
+
+	return result;
 }
 
-void RSA::decrypt() {
+inline std::string RSA::decrypt() {
 	long int pt, ct, key = d[0], k;
-	i = 0;
+	int i = 0;
 	while (en[i] != -1) {
-		ct = temp[i];
+		ct = en[i];
 		k = 1;
-		for (j = 0; j < key; j++) {
+		for (int j = 0; j < key; j++) {
 			k *= ct;
 			k %= n;
 		}
 		pt = k + 96;
-		m[i] = pt;
+		msg[i] = pt;
 		i++;
 	}
-	m[i] = -1;
-	cout << "\nTHE DECRYPTED MESSAGE IS\n";
-	for (i = 0; m[i] != -1; i++)
-		printf("%c", m[i]);
+	msg[i] = -1;
+	std::string result = "";
+	for (i = 0; msg[i] != -1; i++)
+		result += (char) msg[i];
+	return result;
 }
 
-long int RSA::cd(long int x) {
+long int RSA::calcD(long int x) {
 	long int k = 1;
 	while (true) {
 		k += t;
@@ -103,16 +149,15 @@ long int RSA::cd(long int x) {
 	}
 }
 
-void RSA::ce() {
-	int k;
-	k = 0;
-	for (i = 2; i < t; i++) {
+void RSA::calcE() {
+	int k = 0;
+	for (int i = 2; i < t; i++) {
 		if (t % i == 0)
 			continue;
-		flag = prime(i);
+		long int flag = isPrime(i);
 		if (flag == 1 && i != p && i != q) {
 			e[k] = i;
-			flag = cd(e[k]);
+			flag = calcD(e[k]);
 			if (flag > 0) {
 				d[k] = flag;
 				k++;
@@ -123,38 +168,12 @@ void RSA::ce() {
 	}
 }
 
-int RSA::rsa() {
-//	cout << "\nENTER FIRST PRIME NUMBER\n";
-//	cin >> p;
-//	flag = prime(p);
-//	if (flag == 0) {
-//		cout << "\nWRONG INPUT\n";
-//		exit(1);
-//	}
-//
-//	cout << "\nENTER ANOTHER PRIME NUMBER\n";
-//	cin >> q;
-//	flag = prime(q);
-//	if (flag == 0 || p == q) {
-//		cout << "\nWRONG INPUT\n";
-//		exit(1);
-//	}
-
-	cout << "\nENTER MESSAGE\n";
-//	fflush (stdin);
-	cin >> msg;
-	for (i = 0; msg[i] != '\0'; i++)
-		m[i] = msg[i];
-//	n = p * q;
-//	t = (p - 1) * (q - 1);
-//	ce();
-
-//	cout << "\nPOSSIBLE VALUES OF e AND d ARE\n";
-//	for (i = 0; i < j - 1; i++)
-//		cout << e[i] << "\t" << d[i] << "\n";
-	encrypt();
-	decrypt();
-	return 0;
+RSA::~RSA() {
+	delete[] e;
+	delete[] d;
+	delete[] temp;
+	delete[] msg;
+	delete[] en;
 }
 
 } /* namespace gencrypt */

@@ -32,11 +32,12 @@ class PrimeKey: public Key {
 private:
 	long int prime;
 	PrimeKey(const char* key);
-	PrimeKey(std::istream& is);
 public:
 	PrimeKey() : Key(), prime(0) {};
 	PrimeKey(const PrimeKey& key) : Key(), prime(0) {};
+	PrimeKey(std::istream& is);
 	PrimeKey(long int prime);
+	static PrimeKey* BLANK();
 	long int getPrime() const;
 	virtual ~PrimeKey() {};
 };

@@ -17,6 +17,7 @@ public:
 	MD5Hasher();
 	std::string getName() const;
 	std::string encode(std::string en);
+	void encode(std::istream& is, std::ostream& os, bool endl = true);
 };
 
 } /* namespace gencrypt */

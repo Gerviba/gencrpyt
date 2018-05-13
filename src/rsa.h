@@ -2,10 +2,9 @@
  * rsa.h
  *
  *  Created on: Apr 26, 2018
- *      Author: root
  *
- *
- * https://www.sanfoundry.com/cpp-program-implement-rsa-algorithm/
+ * Converted to C++ and clean-ups by Szabó Gergely (Gerviba)
+ * Based on: https://www.sanfoundry.com/cpp-program-implement-rsa-algorithm/
  */
 
 #ifndef SRC_RSA_H_
@@ -17,19 +16,33 @@ namespace gencrypt {
 
 class RSA: public AsymmetricEncription {
 private:
-	long int p, q, n, t, flag, e[100], d[100], temp[100], j, m[100], en[100], i;
-	char msg[100];
+	long int p, q, n, t;
+	long int* e;
+	long int* d;
+	long int* temp;
+	long int* msg;
+	long int* en;
+	size_t size;
+	bool isPrime(long int);
+	void calcE();
+	long int calcD(long int);
+	inline std::string encrypt(long int length);
+	inline std::string decrypt();
 public:
-	RSA(PrimeKey const& privateKey, PrimeKey const& publicKey);
+	RSA(const PrimeKey* privateKey, const PrimeKey* publicKey, size_t size = 100);
 	std::string getName() const;
 	std::string encode(std::string en);
+	void encode(std::istream& is, std::ostream& os, bool endl = true);
 	std::string decode(std::string de);
-	int prime(long int);
-	void ce();
-	long int cd(long int);
-	void encrypt();
-	void decrypt();
-	int rsa();
+	void decode(std::istream& is, std::ostream& os, bool endl = true);
+	virtual ~RSA();
+};
+
+union converter {
+	long int l;
+	struct {
+		char c[8];
+	};
 };
 
 } /* namespace gencrypt */

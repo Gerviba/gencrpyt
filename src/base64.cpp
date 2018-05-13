@@ -6,6 +6,7 @@
  */
 
 #include "base64.h"
+
 #include <math.h>
 
 namespace gencrypt {
@@ -16,12 +17,12 @@ std::string Base64::getName() const {
 	return "Base64";
 }
 
-std::string Base64::BASE64_CHARS =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		"abcdefghijklmnopqrstuvwxyz"
-		"0123456789+/";
-
 std::string Base64::encode(std::string en) {
+	std::string BASE64_CHARS =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			"abcdefghijklmnopqrstuvwxyz"
+			"0123456789+/";
+
 	bool bits[en.length() * 8];
 	for (size_t index = 0; index < en.length(); ++index)
 		for (int bit = 7; bit >= 0; --bit)
@@ -74,6 +75,22 @@ std::string Base64::decode(std::string de) {
 	}
 
 	return result;
+}
+
+void Base64::encode(std::istream& is, std::ostream& os, bool endl) {
+	std::string input;
+	std::getline(is, input);
+	os << encode(input);
+	if (endl)
+		os << std::endl;
+}
+
+void Base64::decode(std::istream& is, std::ostream& os, bool endl) {
+	std::string input;
+	std::getline(is, input);
+	os << decode(input);
+	if (endl)
+		os << std::endl;
 }
 
 } /* namespace gencrypt */

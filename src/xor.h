@@ -17,10 +17,12 @@ private:
 	inline std::string code(std::string input);
 	Xor();
 public:
-	Xor(Key const& key);
+	Xor(const Key* key);
 	std::string getName() const;
 	std::string encode(std::string en);
+	void encode(std::istream& is, std::ostream& os, bool endl = true);
 	std::string decode(std::string de);
+	void decode(std::istream& is, std::ostream& os, bool endl = true);
 };
 
 } /* namespace gencrypt */

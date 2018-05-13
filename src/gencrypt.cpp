@@ -5,9 +5,8 @@
  *      Author: Gerviba
  */
 
-#include <string>
-
 #include "gencrypt.h"
+#include <string>
 #include "key.h"
 
 // TwoWay
@@ -26,7 +25,7 @@ std::string gencrypt::SymmetricEncription::getType() const {
 	return "Symmetric";
 }
 
-gencrypt::Key const& gencrypt::SymmetricEncription::getKey() const {
+const gencrypt::Key* gencrypt::SymmetricEncription::getKey() const {
 	return this->key;
 }
 
@@ -40,11 +39,11 @@ std::string gencrypt::AsymmetricEncription::getType() const {
 	return "Asymmetric";
 }
 
-gencrypt::Key const& gencrypt::AsymmetricEncription::getPrivateKey() const {
+const gencrypt::Key* gencrypt::AsymmetricEncription::getPrivateKey() const {
 	return this->privateKey;
 }
 
-gencrypt::Key const& gencrypt::AsymmetricEncription::getPublicKey() const {
+const gencrypt::Key* gencrypt::AsymmetricEncription::getPublicKey() const {
 	return this->publicKey;
 }
 
