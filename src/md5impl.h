@@ -34,6 +34,9 @@
 #ifndef SRC_MD5IMPL_H_
 #define SRC_MD5IMPL_H_
 
+#include <iostream>
+#include <string>
+
 namespace gencrypt {
 
 class MD5 {

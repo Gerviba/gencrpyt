@@ -84,7 +84,7 @@ public:
 		return Iterator(first);
 	}
 
-	virtual ~LinkedCollection(){
+	virtual ~LinkedCollection() {
 		Element<T>* current = first;
 		while (current != NULL) {
 			Element<T>* temp = current->getNext();

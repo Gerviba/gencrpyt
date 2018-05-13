@@ -2,21 +2,22 @@
  * genericcrypto.cpp
  *
  *  Created on: Mar 30, 2018
- *      Author: Gerviba
+ *      Author: Szabó Gergely (Gerviba)
  */
 
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
 
-#include "../_src/memtrace.h"
-#include "../src/base64.h"
-#include "../src/gtest_lite.h"
-#include "../src/linkedcollection.hpp"
-#include "../src/md5.h"
-#include "../src/rot13.h"
-#include "../src/rsa.h"
-#include "../src/xor.h"
+#include "memtrace.h"
+#include "gtest_lite.h"
+#include "gencrypt.h"
+#include "linkedcollection.hpp"
+#include "xor.h"
+#include "rot13.h"
+#include "base64.h"
+#include "rsa.h"
+#include "md5.h"
 
 using namespace gencrypt;
 
@@ -26,6 +27,15 @@ int main(int argc, char **argv) {
 		Key key("private key");
 		EXPECT_STREQ("private key", key.getRawKey())
 				<< "Invalid key value" << std::endl;
+
+		EXPECT_THROW({key.getByteAt(-1);}, std::out_of_range&)
+				<< "It should be an invalid index" << std::endl;
+
+		EXPECT_THROW({key.getByteAt(11);}, std::out_of_range&)
+				<< "It should be an invalid index" << std::endl;
+
+		EXPECT_NO_THROW({key.getByteAt(10);})
+				<< "It must be a valid index" << std::endl;
 
 		std::ifstream ifs("xor_key");
 		Key key2(ifs);
@@ -41,8 +51,8 @@ int main(int argc, char **argv) {
 		PrimeKey pkey2(0L);
 		EXPECT_EQ(0L, pkey2.getPrime()) << "Invalid key number" << std::endl;
 
-		PrimeKey pkey3(999999999999999L);
-		EXPECT_EQ(0L, pkey2.getPrime()) << "Invalid key number" << std::endl;
+		PrimeKey pkey3(9999999999999L);
+		EXPECT_EQ(9999999999999L, pkey3.getPrime()) << "Invalid key number" << std::endl;
 
 		std::ifstream ifs("prime_key");
 		PrimeKey ifpkey1(ifs);
@@ -208,7 +218,7 @@ int main(int argc, char **argv) {
 				<< "The collection is longer than expected" << std::endl;
 	} ENDM
 
-	TEST(Collection, storeAndRead) {
+	TEST(Collection, storeAndReadIterator) {
 		LinkedCollection<CryptoAlgorithm> collection;
 		collection.append(new Rot13());
 		collection.append(new Xor(new Key("1234567")));
@@ -264,7 +274,7 @@ int main(int argc, char **argv) {
 
 	} ENDM
 
-	TEST(Collection, md5_streams) {
+	TEST(Collection, md5Streams) {
 		std::istringstream ins("test this stream");
 		std::stringstream ss;
 
@@ -285,17 +295,40 @@ int main(int argc, char **argv) {
 		collection.append(new Base64());
 		collection.append(new RSA(new PrimeKey(47), new PrimeKey(101)));
 
+		std::cout << "Enter message to encode: " << std::endl;
 		std::string read;
 		std::getline(std::cin, read);
-		for (LinkedCollection<CryptoAlgorithm>::Iterator it = collection.iterator(); it.notNull(); ++it)
-			std::cout << (*it)->getName() << "\t" << ((TwoWayEncription*)*it)->encode(read) << std::endl;
+		int count = 0;
+		std::cout << "Encoded values are:" << std::endl;
+		for (LinkedCollection<CryptoAlgorithm>::Iterator it = collection.iterator(); it.notNull(); ++it) {
+			std::cout << "\t" << (*it)->getName() << "\t" << (*it)->encode(read) << std::endl;
+			++count;
+		}
 
+		EXPECT_EQ(5, count)
+				<< "Invaid encoded string count" << std::endl;
+
+		count = 0;
+		std::cout << "Decoded values are:" << std::endl;
+		for (LinkedCollection<CryptoAlgorithm>::Iterator it = collection.iterator(); it.notNull(); ++it) {
+			if (!(*it)->isTwoWay())
+				continue;
+			std::cout << "\t" << (*it)->getName() << "\t" << ((TwoWayEncription*)*it)->decode(((TwoWayEncription*)*it)->encode(read)) << std::endl;
+			++count;
+		}
+		EXPECT_EQ(4, count)
+				<< "Invaid decoded string count" << std::endl;
+
+		std::cout << std::endl;
 	} ENDM
 
-	TEST(Collection, stdEncodeDecodeRsa) {
+	TEST(Collection, stdInEncodeDecodeRsa) {
 		RSA rsa(new PrimeKey(61), new PrimeKey(67));
 		std::stringstream ss;
+
+		std::cout << "Enter message to encode: " << std::endl;
 		rsa.encode(std::cin, ss);
+		std::cout << "The encoded and re-decoded value is: " << std::endl;
 		rsa.decode(ss, std::cout);
 	} ENDM
 

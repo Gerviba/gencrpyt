@@ -8,7 +8,7 @@
 #ifndef SRC_MD5_H_
 #define SRC_MD5_H_
 
-#include "../_src/gencrypt.h"
+#include "gencrypt.h"
 
 namespace gencrypt {
 

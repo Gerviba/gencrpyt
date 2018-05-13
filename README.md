@@ -31,8 +31,8 @@ C++ crpyto library by Szabó Gergely
 
 ## Supported encryptions
 
-|Name  |Type|Description|
-|------|----|-----------|
+|Name  |Type      |Description|
+|------|----------|-----------|
 |rot13 |Keyless   |Rotates the alphabet with 13 chars|
 |xor   |Symmetric |Applies xor key[i] for every character (i modulo key length)|
 |base64|Symmetric |Splits the bits into 6 bit chunks and map the values to `A-Za-z0-9+/` values|

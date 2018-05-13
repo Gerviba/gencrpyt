@@ -5,13 +5,14 @@
  *      Author: Gerviba
  */
 
-#include "../src/key.h"
+#include "key.h"
 
 #include <iostream>
 #include <cstdlib>
 #include <string.h>
 #include <algorithm>
 #include <iomanip>
+#include <stdexcept>
 
 gencrypt::Key::Key() {
 	this->key = NULL;
@@ -51,6 +52,8 @@ char gencrypt::Key::operator[](unsigned int index) const {
 }
 
 char gencrypt::Key::getByteAt(unsigned int index) const {
+	if (index < 0 || index >= length)
+		throw std::out_of_range("Out of range");
 	return this->key[index];
 }
 

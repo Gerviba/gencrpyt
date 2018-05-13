@@ -41,7 +41,7 @@
 #include <string>
 #include <fstream>
 #ifdef MEMTRACE
-#include "../src/memtrace.h"
+#include "memtrace.h"
 #endif
 
 // Két makró az egyes tesztek elé és mögé:

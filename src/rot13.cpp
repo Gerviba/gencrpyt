@@ -5,7 +5,7 @@
  *      Author: Gerviba
  */
 
-#include "../src/rot13.h"
+#include "rot13.h"
 
 #include <string>
 
@@ -37,18 +37,16 @@ std::string gencrypt::Rot13::decode(std::string de) {
 void gencrypt::Rot13::encode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << encode(input);
 	if (endl)
-		os << encode(input) << std::endl;
-	else
-		os << encode(input);
+		os << std::endl;
 }
 
 void gencrypt::Rot13::decode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << decode(input);
 	if (endl)
-		os << decode(input) << std::endl;
-	else
-		os << decode(input);
+		os << std::endl;
 }
 

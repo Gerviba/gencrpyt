@@ -31,7 +31,7 @@
  * documentation and/or software.
  */
 
-#include "../src/md5impl.h"
+#include "md5impl.h"
 
 #include <iostream>
 #include <cstdio>

@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-#include "../src/gencrypt.h"
+#include "gencrypt.h"
 
 namespace gencrypt {
 

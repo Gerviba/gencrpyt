@@ -8,7 +8,7 @@
 #ifndef SRC_ROT13_H_
 #define SRC_ROT13_H_
 
-#include "../_src/gencrypt.h"
+#include "gencrypt.h"
 
 namespace gencrypt {
 

@@ -10,7 +10,7 @@
 #ifndef SRC_RSA_H_
 #define SRC_RSA_H_
 
-#include "../_src/gencrypt.h"
+#include "gencrypt.h"
 
 namespace gencrypt {
 
@@ -35,7 +35,7 @@ public:
 	void encode(std::istream& is, std::ostream& os, bool endl = true);
 	std::string decode(std::string de);
 	void decode(std::istream& is, std::ostream& os, bool endl = true);
-	~RSA();
+	virtual ~RSA();
 };
 
 union converter {

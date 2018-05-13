@@ -5,7 +5,7 @@
  *      Author: Gerviba
  */
 
-#include "../src/base64.h"
+#include "base64.h"
 
 #include <math.h>
 
@@ -80,19 +80,17 @@ std::string Base64::decode(std::string de) {
 void Base64::encode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << encode(input);
 	if (endl)
-		os << encode(input) << std::endl;
-	else
-		os << encode(input);
+		os << std::endl;
 }
 
 void Base64::decode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << decode(input);
 	if (endl)
-			os << decode(input) << std::endl;
-		else
-			os << decode(input);
+		os << std::endl;
 }
 
 } /* namespace gencrypt */

@@ -5,7 +5,7 @@
  *      Author: Gerviba
  */
 
-#include "../src/xor.h"
+#include "xor.h"
 
 #include <iostream>
 
@@ -32,17 +32,15 @@ std::string gencrypt::Xor::decode(std::string de) {
 void gencrypt::Xor::encode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << encode(input);
 	if (endl)
-		os << encode(input) << std::endl;
-	else
-		os << encode(input);
+		os << std::endl;
 }
 
 void gencrypt::Xor::decode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << decode(input);
 	if (endl)
-		os << decode(input) << std::endl;
-	else
-		os << decode(input);
+		os << std::endl;
 }

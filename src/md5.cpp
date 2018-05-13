@@ -5,11 +5,11 @@
  *      Author: Gerviba
  */
 
-#include "../src/md5.h"
+#include "md5.h"
 
 #include <iostream>
 
-#include "../src/md5impl.h"
+#include "md5impl.h"
 
 namespace gencrypt {
 
@@ -26,10 +26,9 @@ std::string MD5Hasher::encode(std::string en) {
 void MD5Hasher::encode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << md5(input);
 	if (endl)
-		os << md5(input) << std::endl;
-	else
-		os << md5(input);
+		os << std::endl;
 }
 
 } /* namespace gencrypt */

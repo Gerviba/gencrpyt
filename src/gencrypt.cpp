@@ -5,11 +5,9 @@
  *      Author: Gerviba
  */
 
-#include "../src/gencrypt.h"
-
+#include "gencrypt.h"
 #include <string>
-
-#include "../_src/key.h"
+#include "key.h"
 
 // TwoWay
 

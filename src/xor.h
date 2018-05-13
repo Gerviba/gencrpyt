@@ -8,7 +8,7 @@
 #ifndef SRC_XOR_H_
 #define SRC_XOR_H_
 
-#include "../src/gencrypt.h"
+#include "gencrypt.h"
 
 namespace gencrypt {
 

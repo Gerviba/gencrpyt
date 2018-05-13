@@ -5,7 +5,7 @@
  * Based on: https://www.sanfoundry.com/cpp-program-implement-rsa-algorithm/
  */
 
-#include "../src/rsa.h"
+#include "rsa.h"
 
 #include <string.h>
 #include <stdexcept>
@@ -69,19 +69,17 @@ std::string RSA::decode(std::string de) {
 void RSA::encode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << encode(input);
 	if (endl)
-		os << encode(input) << std::endl;
-	else
-		os << encode(input);
+		os << std::endl;
 }
 
 void RSA::decode(std::istream& is, std::ostream& os, bool endl) {
 	std::string input;
 	std::getline(is, input);
+	os << decode(input);
 	if (endl)
-		os << decode(input) << std::endl;
-	else
-		os << decode(input);
+		os << std::endl;
 }
 
 bool RSA::isPrime(long int pr) { //TODO: Bool

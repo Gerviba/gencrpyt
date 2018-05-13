@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/key.h"
+#include "key.h"
 
 namespace gencrypt {
 
