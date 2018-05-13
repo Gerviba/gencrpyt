@@ -8,7 +8,7 @@
 #ifndef SRC_XOR_H_
 #define SRC_XOR_H_
 
-#include "../src/gencrypt.h"
+#include "gencrypt.h"
 
 namespace gencrypt {
 
@@ -17,12 +17,10 @@ private:
 	inline std::string code(std::string input);
 	Xor();
 public:
-	Xor(const Key* key);
+	Xor(Key const& key);
 	std::string getName() const;
 	std::string encode(std::string en);
-	void encode(std::istream& is, std::ostream& os, bool endl = true);
 	std::string decode(std::string de);
-	void decode(std::istream& is, std::ostream& os, bool endl = true);
 };
 
 } /* namespace gencrypt */

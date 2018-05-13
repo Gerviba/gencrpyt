@@ -5,12 +5,11 @@
  *      Author: Gerviba
  */
 
-#include "../src/key.h"
-
 #include <iostream>
 #include <cstdlib>
 #include <string.h>
 #include <algorithm>
+#include "key.h"
 #include <iomanip>
 
 gencrypt::Key::Key() {
@@ -27,9 +26,8 @@ gencrypt::Key::Key(const char* key) {
 gencrypt::Key::Key(std::istream& is) {
 	std::string temp;
 	getline(is, temp);
-	this->length = temp.length();
-	this->key = new char[this->length + 1];
-	strcpy(this->key, temp.c_str());
+	this->key = NULL;
+	this->length = 0;
 }
 
 gencrypt::Key::Key(const Key& key) {
@@ -62,21 +60,23 @@ gencrypt::PrimeKey::PrimeKey(long int prime) {
 	this->key = NULL;
 	this->length = 0;
 	this->prime = prime;
-}
-
-gencrypt::PrimeKey::PrimeKey(std::istream& is) {
-	this->prime = 0;
-	is >> this->prime;
-	is.ignore(1);
-
-	this->key = NULL;
-	this->length = 0;
-}
-
-gencrypt::PrimeKey* gencrypt::PrimeKey::BLANK() {
-	return new PrimeKey();
+//	this->key = new char[9];
+//	this->length = 8;
+//	for (size_t i = 0; i < 8; ++i) {
+//		std::cout << std::hex << ((prime & (255l << ((7 - i) * 8))) >> ((7 - i) * 8)) << std::endl;
+//		this->key[i] = ((prime & (255l << ((7 - i) * 8))) >> ((7 - i) * 8));
+//	}
+//	this->key[8] = '\0';
+//	std::cout << (int) this->key[7] << " " << (int) this->key[6]
+//			<< " " << (int) this->key[5] << " " << (int) this->key[4]
+//			<< " " << (int) this->key[3] << " " << (int) this->key[2]
+//			<< " " << (int) this->key[1] << " " << (int) this->key[0] << std::endl;
 }
 
 long int gencrypt::PrimeKey::getPrime() const {
+//	long int result = 0;
+//	for (size_t i = 0; i < 8; ++i)
+//		result |= this->key[i] << (i * 8);
+//	return result;
 	return prime;
 }

@@ -22,7 +22,7 @@ mem_dump:   2016.
 
 #ifdef MEMTRACE
 #define FROM_MEMTRACE_CPP
-#include "../src/memtrace.h"
+#include "memtrace.h"
 
 #define FMALLOC 0
 #define FCALLOC 1

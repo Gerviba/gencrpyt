@@ -9,8 +9,7 @@
 #define SRC_BASE64_H_
 
 #include <iostream>
-
-#include "../src/gencrypt.h"
+#include "gencrypt.h"
 
 namespace gencrypt {
 
@@ -22,9 +21,7 @@ public:
 	Base64();
 	std::string getName() const;
 	std::string encode(std::string en);
-	void encode(std::istream& is, std::ostream& os, bool endl = true);
 	std::string decode(std::string de);
-	void decode(std::istream& is, std::ostream& os, bool endl = true);
 };
 
 } /* namespace gencrypt */

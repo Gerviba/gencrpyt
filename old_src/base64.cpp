@@ -5,8 +5,7 @@
  *      Author: Gerviba
  */
 
-#include "../src/base64.h"
-
+#include "base64.h"
 #include <math.h>
 
 namespace gencrypt {
@@ -75,24 +74,6 @@ std::string Base64::decode(std::string de) {
 	}
 
 	return result;
-}
-
-void Base64::encode(std::istream& is, std::ostream& os, bool endl) {
-	std::string input;
-	std::getline(is, input);
-	if (endl)
-		os << encode(input) << std::endl;
-	else
-		os << encode(input);
-}
-
-void Base64::decode(std::istream& is, std::ostream& os, bool endl) {
-	std::string input;
-	std::getline(is, input);
-	if (endl)
-			os << decode(input) << std::endl;
-		else
-			os << decode(input);
 }
 
 } /* namespace gencrypt */

@@ -10,8 +10,7 @@
 
 #include <iostream>
 #include <string>
-
-#include "../src/key.h"
+#include "key.h"
 
 namespace gencrypt {
 
@@ -24,7 +23,7 @@ public:
 	virtual std::string getName() const = 0;
 	virtual std::string getType() const = 0;
 	virtual std::string encode(std::string in) = 0;
-	virtual void encode(std::istream& is, std::ostream& os, bool endl = true) = 0;
+//TODO	virtual std::string encode(std::istream& is) = 0;
 	virtual bool isTwoWay() const = 0;
 	virtual ~CryptoAlgorithm() {};
 };
@@ -32,40 +31,33 @@ public:
 class TwoWayEncription: public CryptoAlgorithm {
 public:
 	virtual std::string decode(std::string out) = 0;
-	virtual void decode(std::istream& is, std::ostream& os, bool endl = true) = 0;
+//TODO	virtual std::string decode(std::ostream& os) = 0;
 	virtual bool isSymmetric() const = 0;
 	virtual bool isTwoWay() const;
 };
 
 class SymmetricEncription: public TwoWayEncription {
 protected:
-	const Key* key;
+	Key const& key;
 public:
-	SymmetricEncription() : key(new Key()) {}
-	SymmetricEncription(const Key* key) : key(key) {}
-	const Key* getKey() const;
+	SymmetricEncription() : key(Key()) {}
+	SymmetricEncription(Key const& key) : key(key) {}
+	Key const& getKey() const;
 	bool isSymmetric() const;
 	virtual std::string getType() const;
-	virtual ~SymmetricEncription() {
-		delete key;
-	}
 };
 
 class AsymmetricEncription: public TwoWayEncription {
 protected:
-	const Key* privateKey;
-	const Key* publicKey;
+	Key const& privateKey;
+	Key const& publicKey;
 public:
-	AsymmetricEncription(const Key* privateKey, const Key* publicKey)
+	AsymmetricEncription(Key const& privateKey, Key const& publicKey)
 		: privateKey(privateKey), publicKey(publicKey) {}
-	const Key* getPrivateKey() const;
-	const Key* getPublicKey() const;
+	Key const& getPrivateKey() const;
+	Key const& getPublicKey() const;
 	bool isSymmetric() const;
 	virtual std::string getType() const;
-	virtual ~AsymmetricEncription() {
-		delete privateKey;
-		delete publicKey;
-	}
 };
 
 class HashAlgorithm: public CryptoAlgorithm {

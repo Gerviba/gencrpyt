@@ -5,9 +5,8 @@
  *      Author: Gerviba
  */
 
-#include "../src/rot13.h"
-
 #include <string>
+#include "rot13.h"
 
 std::string gencrypt::Rot13::UPPERCASE = "NOPQRSTUVWXYZABCDEFGHIJKLM";
 std::string gencrypt::Rot13::LOWERCASE = "nopqrstuvwxyzabcdefghijklm";
@@ -34,21 +33,4 @@ std::string gencrypt::Rot13::decode(std::string de) {
 	return code(de);
 }
 
-void gencrypt::Rot13::encode(std::istream& is, std::ostream& os, bool endl) {
-	std::string input;
-	std::getline(is, input);
-	if (endl)
-		os << encode(input) << std::endl;
-	else
-		os << encode(input);
-}
-
-void gencrypt::Rot13::decode(std::istream& is, std::ostream& os, bool endl) {
-	std::string input;
-	std::getline(is, input);
-	if (endl)
-		os << decode(input) << std::endl;
-	else
-		os << decode(input);
-}
 
